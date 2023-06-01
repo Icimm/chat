@@ -1,5 +1,6 @@
 import 'package:chat/components/auth_form.dart';
 import 'package:chat/core/models/auth_form_data.dart';
+import 'package:chat/core/services/auth/auth_mock_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -14,18 +15,26 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> _handleSubmit(AuthFormData formData) async {
     try {
-     setState(() => __isLoading = true);
+      setState(() => __isLoading = true);
 
-     if(formData.isLogin) {
-      //Login
-     } else {
-      //Signup
-     }
-
-
-    } catch(error){
+      if (formData.isLogin) {
+        //Login
+        await AuthMockService().signup(
+          formData.name, 
+          formData.email,
+          formData.password,
+          formData.Image,       
+        );
+      } else {
+        //Signup
+        await AuthMockService().login(
+          formData.email,
+          formData.password,
+        );
+      }
+    } catch (error) {
       //Tratar Erro!
-    } finally{
+    } finally {
       setState(() => __isLoading = false);
     }
   }
@@ -39,16 +48,16 @@ class _AuthPageState extends State<AuthPage> {
           Center(
               child: SingleChildScrollView(
             child: AuthForm(onSubmit: _handleSubmit),
-           )
-          ),
-          if(__isLoading) Container(
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.5),
+          )),
+          if (__isLoading)
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 0.5),
+              ),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
         ],
       ),
     );
