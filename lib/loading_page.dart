@@ -11,7 +11,8 @@ class LoadingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Carregando...',
+            Text(
+                'Carregando...',
                 style: TextStyle(
                   color: Colors.white,
                 ))
