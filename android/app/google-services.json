@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "913633956036",
+    "project_id": "icaro-chat",
+    "storage_bucket": "icaro-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913633956036:android:b387b247f881a7801a3991",
+        "android_client_info": {
+          "package_name": "br.com.cod3r.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913633956036-97mll3h5papgohooqkh3c08js5msutno.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtCo1GB6LhfghZyC_jA_2gDOpYtdnUw5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913633956036-97mll3h5papgohooqkh3c08js5msutno.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
