@@ -12,5 +12,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICAROCHATT_6CC15 }}'
-          projectId: icarochatt-6cc15
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICARO_CHAT}}'
+          projectId: icaro_chat
