@@ -4,40 +4,39 @@ import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  _AuthPageState createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
-  bool __isLoading = false;
+  bool _isLoading = false;
 
   Future<void> _handleSubmit(AuthFormData formData) async {
     try {
-       if (!mounted) return;
-      setState(() => __isLoading = true);
+      setState(() => _isLoading = true);
 
       if (formData.isLogin) {
-        //Login
-        await AuthService().signup(
-          formData.name, 
-          formData.email,
-          formData.password,
-          formData.Image,       
-        );
-      } else {
-        //Signup
+        // Login
         await AuthService().login(
           formData.email,
           formData.password,
         );
+      } else {
+        // Signup
+        await AuthService().signup(
+          formData.name,
+          formData.email,
+          formData.password,
+          formData.Image,
+        );
       }
     } catch (error) {
-      //Tratar Erro!
+      print(error.toString());
+      // Tratar erro!
     } finally {
-       if (!mounted) return;
-      setState(() => __isLoading = false);
+      setState(() => _isLoading = false);
     }
   }
 
@@ -48,10 +47,11 @@ class _AuthPageState extends State<AuthPage> {
       body: Stack(
         children: [
           Center(
-              child: SingleChildScrollView(
-            child: AuthForm(onSubmit: _handleSubmit),
-          )),
-          if (__isLoading)
+            child: SingleChildScrollView(
+              child: AuthForm(onSubmit: _handleSubmit),
+            ),
+          ),
+          if (_isLoading)
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(0, 0, 0, 0.5),

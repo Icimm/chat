@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthFirebaseService implements AuthService {
   static ChatUser? _currentUser;
+
   static final _userStream = Stream<ChatUser?>.multi((controller) async {
     final authChanges = FirebaseAuth.instance.authStateChanges();
     await for (final user in authChanges) {
@@ -16,17 +17,14 @@ class AuthFirebaseService implements AuthService {
     }
   });
 
-  @override
   ChatUser? get currentUser {
     return _currentUser;
   }
 
-  @override
   Stream<ChatUser?> get userChanges {
     return _userStream;
   }
 
-  @override
   Future<void> signup(
       String name, String email, String password, File? image) async {
     final auth = FirebaseAuth.instance;
@@ -39,17 +37,17 @@ class AuthFirebaseService implements AuthService {
 
     // 1. Upload da foto do usuário
     final imageName = '${credential.user!.uid}.jpg';
-    final imageUrl = await _uploadUserImage(image, imageName);
+    final imageURL = await _uploadUserImage(image, imageName);
 
     // 2. atualizar os atributos do usuário
     await credential.user?.updateDisplayName(name);
-    await credential.user?.updatePhotoURL(imageUrl);
+    await credential.user?.updatePhotoURL(imageURL);
 
     // 3. salvar usuário no banco de dados (opcional)
-    await _saveChatUser(_toChatUser(credential.user!, imageUrl));
+    _currentUser = _toChatUser(credential.user!, name, imageURL);
+    await _saveChatUser(_currentUser!);
   }
 
-  @override
   Future<void> login(String email, String password) async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
@@ -57,7 +55,6 @@ class AuthFirebaseService implements AuthService {
     );
   }
 
-  @override
   Future<void> logout() async {
     FirebaseAuth.instance.signOut();
   }
@@ -78,16 +75,16 @@ class AuthFirebaseService implements AuthService {
     return docRef.set({
       'name': user.name,
       'email': user.email,
-      'imageUrl': user.imageURL,
+      'imageURL': user.imageURL,
     });
   }
 
-  static ChatUser _toChatUser(User user, [String? imageUrl]) {
+  static ChatUser _toChatUser(User user, [String? name, String? imageURL]) {
     return ChatUser(
       id: user.uid,
-      name: user.displayName ?? user.email!.split('@')[0],
+      name: name ?? user.displayName ?? user.email!.split('@')[0],
       email: user.email!,
-      imageURL: imageUrl ?? user.photoURL ?? 'assets/images/avatar.png',
+      imageURL: imageURL ?? user.photoURL ?? 'assets/images/avatar.png',
     );
   }
 }

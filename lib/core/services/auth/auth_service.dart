@@ -8,21 +8,21 @@ abstract class AuthService {
   Stream<ChatUser?> get userChanges;
 
   Future<void> signup(
-    String name,
-    String email,
-    String password,
-    File? image,
-  );
+      String name,
+      String email,
+      String password,
+      File? image,
+      );
 
   Future<void> login(
-    String email,
-    String password,
-  );
+      String email,
+      String password,
+      );
 
   Future<void> logout();
 
   factory AuthService() {
-    //return AuthMockService();
+    // return AuthMockService();
     return AuthFirebaseService();
   }
 }
